@@ -4,9 +4,20 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="../ReactorUWP.core/ReactorUWP.core/ReactorUWP.core.csproj">
+    <Platform Solution="*|arm64" Project="arm64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
   <Project Path="EditingEngine/EditingEngine.vcxitems" Id="e59d1265-afc4-4f87-86b5-c077344328d9" />
   <Project Path="FluentNotepads.UWP/FluentNotepads.UWP.csproj">
     <Platform Solution="*|arm64" Project="arm64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
+  <Project Path="FluentNotepads.WINUI/FluentNotepads.WINUI.csproj" Id="c48152f4-21f3-41c9-9a4f-592c10dd8584">
+    <Platform Solution="*|arm64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
     <Deploy />

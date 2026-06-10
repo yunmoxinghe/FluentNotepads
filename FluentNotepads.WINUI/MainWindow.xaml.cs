@@ -65,9 +65,25 @@ namespace FluentNotepads_WINUI
                 IconSource = new SymbolIconSource { Symbol = Symbol.Document }
             };
 
-            var frame = new Frame();
-            frame.Navigate(pageType);
-            tab.Content = frame;
+            // 如果是 HomePage，使用官方 Reactor EditingPage
+            if (pageType == typeof(HomePage))
+            {
+                // 创建 Reactor 宿主容器
+                var container = new Grid();
+                var reactorHost = new Microsoft.UI.Reactor.ReactorHost(container);
+                
+                // 渲染 Reactor 编辑页面组件
+                reactorHost.Render(new EditingEngine.EditingPage());
+                
+                tab.Content = container;
+            }
+            else
+            {
+                // 其他页面使用传统 Frame 导航
+                var frame = new Frame();
+                frame.Navigate(pageType);
+                tab.Content = frame;
+            }
 
             TabControl.TabItems.Add(tab);
             return tab;
