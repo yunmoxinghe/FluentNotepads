@@ -4,7 +4,8 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="FluentNotepads/FluentNotepads.csproj">
+  <Project Path="EditingEngine/EditingEngine.vcxitems" Id="e59d1265-afc4-4f87-86b5-c077344328d9" />
+  <Project Path="FluentNotepads.UWP/FluentNotepads.UWP.csproj">
     <Platform Solution="*|arm64" Project="arm64" />
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />
