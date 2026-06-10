@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FluentNotepads.WINUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FluentNotepads.WINUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
