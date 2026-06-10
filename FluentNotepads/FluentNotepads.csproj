@@ -13,4 +13,11 @@
     <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- WinUI 2 for UWP - Latest stable version -->
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
+    <!-- CommunityToolkit Settings Controls -->
+    <PackageReference Include="CommunityToolkit.Uwp.Controls.SettingsControls" Version="8.2.251219" />
+  </ItemGroup>
 </Project>

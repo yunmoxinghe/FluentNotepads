@@ -53,13 +53,4 @@ FluentNotepads/
 
 ## 构建说明
 
-```bash
-# 恢复 NuGet 包
-dotnet restore
-
-# 构建项目
-dotnet build
-
-# 发布应用
-dotnet publish -c Release -r win-x64
-```
+仅支持vsstudio2026

@@ -5,10 +5,34 @@
     xmlns:local="using:FluentNotepads"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Loaded="MainPage_Loaded"
+    AllowDrop="True"
+    DragOver="MainPage_DragOver"
+    Drop="MainPage_Drop"
+    KeyDown="MainPage_KeyDown">
 
-    <Grid>
+    <Grid Background="Transparent">
+        <muxc:TabView x:Name="TabView"
+                      VerticalAlignment="Stretch"
+                      TabWidthMode="Equal"
+                      CanDragTabs="True"
+                      CanReorderTabs="True"
+                      AllowDropTabs="True"
+                      AddTabButtonClick="TabView_AddTabButtonClick"
+                      TabCloseRequested="TabView_TabCloseRequested">
 
+            <muxc:TabView.TabStripHeader>
+                <Grid x:Name="ShellTitlebarInset" Background="Transparent"/>
+            </muxc:TabView.TabStripHeader>
+
+            <muxc:TabView.TabStripFooter>
+                <Grid x:Name="CustomDragRegion"
+                      Background="Transparent"
+                      Loaded="CustomDragRegion_Loaded"/>
+            </muxc:TabView.TabStripFooter>
+
+        </muxc:TabView>
     </Grid>
 </Page>
