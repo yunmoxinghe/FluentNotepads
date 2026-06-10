@@ -1,4 +1,4 @@
-﻿namespace Notepads.UI
+﻿namespace Reactor.core
 {
     public class Class1
     {
