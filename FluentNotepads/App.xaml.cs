@@ -42,8 +42,6 @@ namespace FluentNotepads
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 AppThemeManager.LoadSettings();
-                AppThemeManager.ApplyTheme();
-                AppThemeManager.ApplyMaterial();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -52,6 +50,10 @@ namespace FluentNotepads
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+                
+                // 应用主题和材质
+                AppThemeManager.ApplyTheme();
+                AppThemeManager.ApplyMaterial();
             }
 
             if (e.PrelaunchActivated == false)
@@ -337,16 +339,6 @@ namespace FluentNotepads
             get => _settings.EnableSound;
             set { _settings.EnableSound = value; SaveSettings(); }
         }
-        public bool ShowWelcomeOnLaunch
-        {
-            get => _settings.ShowWelcomeOnLaunch;
-            set { _settings.ShowWelcomeOnLaunch = value; SaveSettings(); }
-        }
-        public bool AllowCloseWelcomeWhenFileOpen
-        {
-            get => _settings.AllowCloseWelcomeWhenFileOpen;
-            set { _settings.AllowCloseWelcomeWhenFileOpen = value; SaveSettings(); }
-        }
 
         private void SaveSettings()
         {
@@ -385,8 +377,6 @@ namespace FluentNotepads
     {
         public string AppTheme { get; set; } = "System";
         public string AppMaterial { get; set; } = "Mica";
-        public bool EnableSound { get; set; } = true;
-        public bool ShowWelcomeOnLaunch { get; set; } = true;
-        public bool AllowCloseWelcomeWhenFileOpen { get; set; } = true;
+        public bool EnableSound { get; set; } = false;
     }
 }

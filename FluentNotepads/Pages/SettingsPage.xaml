@@ -82,25 +82,6 @@
                     <ToggleSwitch x:Name="SoundToggle" Toggled="SoundToggle_Toggled"/>
                 </controls:SettingsCard>
 
-                <!-- 启动行为 -->
-                <TextBlock x:Uid="StartupGroup"
-                           Text="启动"
-                           Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"/>
-
-                <controls:SettingsCard x:Uid="Settings_ShowWelcomeCard"
-                                       Header="启动时显示欢迎页"
-                                       Description="应用启动时显示欢迎页面"
-                                       HeaderIcon="{ui:FontIcon Glyph=&#xE80F;}">
-                    <ToggleSwitch x:Name="ShowWelcomeToggle" Toggled="ShowWelcomeToggle_Toggled"/>
-                </controls:SettingsCard>
-
-                <controls:SettingsCard x:Uid="Settings_AllowCloseWelcomeCard"
-                                       Header="允许关闭欢迎页"
-                                       Description="打开文件后允许关闭欢迎标签页"
-                                       HeaderIcon="{ui:FontIcon Glyph=&#xE711;}">
-                    <ToggleSwitch x:Name="AllowCloseWelcomeToggle" Toggled="AllowCloseWelcomeToggle_Toggled"/>
-                </controls:SettingsCard>
-
                 <!-- 关于 -->
                 <TextBlock x:Uid="AboutGroup"
                            Text="关于"
