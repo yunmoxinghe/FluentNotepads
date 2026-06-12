@@ -25,4 +25,8 @@
     <!-- ReactorUWP.Core - 提供 Microsoft.UI.Reactor 命名空间支持 -->
     <ProjectReference Include="..\..\ReactorUWP.core\ReactorUWP.core\ReactorUWP.core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\EditingEngine\EditingPage.cs" Link="EditingEngine\EditingPage.cs" />
+  </ItemGroup>
 </Project>

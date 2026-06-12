@@ -197,11 +197,15 @@ namespace FluentNotepads
                 var rootFrame = Window.Current.Content as Frame;
                 if (rootFrame == null) return;
 
+                // [修复]: 无论是 Mica 还是 Acrylic，统一在此处注册主题切换事件，确保标题栏能够同步刷新
+                if (rootFrame is FrameworkElement el)
+                {
+                    el.ActualThemeChanged -= OnActualThemeChanged;
+                    el.ActualThemeChanged += OnActualThemeChanged;
+                }
+
                 if (CurrentMaterial == BackgroundMaterial.Mica)
                 {
-                    if (rootFrame is FrameworkElement el)
-                        el.ActualThemeChanged -= OnActualThemeChanged;
-
                     rootFrame.Background = null;
                     Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(rootFrame, true);
                 }
@@ -211,22 +215,21 @@ namespace FluentNotepads
 
                     var isDark = GetIsDarkTheme();
                     var tintColor = isDark
-                        ? Color.FromArgb(255, 32, 32, 32)
-                        : Color.FromArgb(255, 243, 243, 243);
+                        ? Color.FromArgb(255, 44, 44, 44)
+                        : Color.FromArgb(255, 252, 252, 252);
+                    var fallbackColor = isDark
+                        ? Color.FromArgb(255, 44, 44, 44)
+                        : Color.FromArgb(255, 249, 249, 249);
+                    var tintOpacity = isDark ? 0.15 : 0.0;
 
-                    rootFrame.Background = new AcrylicBrush
+                    rootFrame.Background = new Microsoft.UI.Xaml.Media.AcrylicBrush
                     {
-                        BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                        BackgroundSource = Microsoft.UI.Xaml.Media.AcrylicBackgroundSource.HostBackdrop,
                         TintColor = tintColor,
-                        TintOpacity = 0.8,
-                        FallbackColor = tintColor
+                        TintOpacity = tintOpacity,
+                        FallbackColor = fallbackColor,
+                        TintLuminosityOpacity = isDark ? 0.96 : 0.85
                     };
-
-                    if (rootFrame is FrameworkElement el)
-                    {
-                        el.ActualThemeChanged -= OnActualThemeChanged;
-                        el.ActualThemeChanged += OnActualThemeChanged;
-                    }
                 }
             }
             catch (Exception ex)
@@ -237,6 +240,7 @@ namespace FluentNotepads
 
         public static void OnActualThemeChanged(FrameworkElement sender, object args)
         {
+            // 此处同步更新标题栏颜色
             CustomizeTitleBar();
 
             if (CurrentMaterial == BackgroundMaterial.Acrylic)
@@ -244,15 +248,17 @@ namespace FluentNotepads
                 var rootFrame = Window.Current.Content as Frame;
                 if (rootFrame == null) return;
 
-                var isDark = GetIsDarkTheme();
-                var tintColor = isDark
-                    ? Color.FromArgb(255, 32, 32, 32)
-                    : Color.FromArgb(255, 243, 243, 243);
-
-                if (rootFrame.Background is AcrylicBrush brush)
+                if (rootFrame.Background is Microsoft.UI.Xaml.Media.AcrylicBrush brush)
                 {
-                    brush.TintColor = tintColor;
-                    brush.FallbackColor = tintColor;
+                    var isDark = GetIsDarkTheme();
+                    brush.TintColor = isDark
+                        ? Color.FromArgb(255, 44, 44, 44)
+                        : Color.FromArgb(255, 252, 252, 252);
+                    brush.FallbackColor = isDark
+                        ? Color.FromArgb(255, 44, 44, 44)
+                        : Color.FromArgb(255, 249, 249, 249);
+                    brush.TintOpacity = isDark ? 0.15 : 0.0;
+                    brush.TintLuminosityOpacity = isDark ? 0.96 : 0.85;
                 }
             }
         }

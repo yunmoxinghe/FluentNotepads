@@ -1,18 +1,18 @@
-using Windows.UI;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Reactor.Core;
+using static Microsoft.UI.Reactor.Factories;
 
-namespace FluentNotepads.EditingEngine
+namespace FluentNotepads.EditingEngine;
+
+/// <summary>
+/// 编辑页面 - 使用 Reactor 框架
+/// 共享于 UWP 和 WINUI 项目
+/// 当前版本：简单文本测试
+/// </summary>
+public class EditingPage : Component
 {
-    /// <summary>
-    /// 编辑页面 - 黑色占位
-    /// </summary>
-    public sealed class EditingPage : Page
+    public override Element Render()
     {
-        public EditingPage()
-        {
-            // 黑色背景
-            Background = new SolidColorBrush(Colors.Black);
-        }
+        // 简单显示文本
+        return TextBlock("Hello from Shared Reactor");
     }
 }

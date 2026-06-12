@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 using FluentNotepads_WINUI.Pages;
+using FluentNotepads.EditingEngine;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Reactor.Hosting;
 
 namespace FluentNotepads_WINUI
 {
@@ -68,14 +70,10 @@ namespace FluentNotepads_WINUI
             // 如果是 HomePage，使用官方 Reactor EditingPage
             if (pageType == typeof(HomePage))
             {
-                // 创建 Reactor 宿主容器
-                var container = new Grid();
-                var reactorHost = new Microsoft.UI.Reactor.ReactorHost(container);
-                
-                // 渲染 Reactor 编辑页面组件
-                reactorHost.Render(new EditingEngine.EditingPage());
-                
-                tab.Content = container;
+                // 创建 ReactorHostControl 并挂载 EditingPage 组件
+                var reactorControl = new ReactorHostControl();
+                reactorControl.Mount(new EditingPage());
+                tab.Content = reactorControl;
             }
             else
             {
