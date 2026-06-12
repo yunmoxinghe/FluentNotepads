@@ -24,24 +24,6 @@
             CanReorderTabs="True"
             TabCloseRequested="TabView_TabCloseRequested"
             TabWidthMode="Equal">
-            <TabView.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="#80FFFFFF"/>
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#80FFFFFF"/>
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#99FFFFFF"/>
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#70FFFFFF"/>
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="#4C3A3A3A"/>
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#4C3A3A3A"/>
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#663A3A3A"/>
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#333A3A3A"/>
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-            </TabView.Resources>
             <TabView.TabStripHeader>
                 <Grid x:Name="ShellTitlebarInset" Background="Transparent" />
             </TabView.TabStripHeader>
