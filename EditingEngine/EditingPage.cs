@@ -13,6 +13,6 @@ public class EditingPage : Component
     public override Element Render()
     {
         // 简单显示文本
-        return TextBlock("Hello from Shared Reactor");
+        return TextBlock("你好，纯代码世界！");
     }
 }

@@ -10,7 +10,36 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
+            
+            <!-- 全局主题资源覆盖 - 必须在 MergedDictionaries 之后 -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <!-- 标签页背景：未选中状态也设置半透明 -->
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="#80FFFFFF"/>
+                    <!-- 标签页选中时的背景：50% 白色半透明 -->
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#80FFFFFF"/>
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#99FFFFFF"/>
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#70FFFFFF"/>
+                    <!-- TabView 背景本身 -->
+                    <SolidColorBrush x:Key="TabViewBackground" Color="Transparent"/>
+                    <!-- 内容区背景：与标签页相同的透明度 -->
+                    <SolidColorBrush x:Key="LayerFillColorDefaultBrush" Color="#80FFFFFF"/>
+                    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="#80FFFFFF"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <!-- 标签页背景：未选中状态也设置半透明 -->
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="#4C3A3A3A"/>
+                    <!-- 标签页选中时的背景：30% 深色半透明 -->
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#4C3A3A3A"/>
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#663A3A3A"/>
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#333A3A3A"/>
+                    <!-- TabView 背景本身 -->
+                    <SolidColorBrush x:Key="TabViewBackground" Color="Transparent"/>
+                    <!-- 内容区背景：与标签页相同的透明度 -->
+                    <SolidColorBrush x:Key="LayerFillColorDefaultBrush" Color="#4C3A3A3A"/>
+                    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush" Color="#4C3A3A3A"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

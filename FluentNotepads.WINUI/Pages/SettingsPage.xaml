@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="FluentNotepads_WINUI.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:FluentNotepads_WINUI.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    Background="Transparent"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer Padding="20,0">
+        <Grid>
+            <StackPanel
+                MaxWidth="1000"
+                HorizontalAlignment="Stretch"
+                Spacing="{StaticResource SettingsCardSpacing}">
+                <StackPanel.ChildrenTransitions>
+                    <EntranceThemeTransition FromVerticalOffset="50" />
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </StackPanel.ChildrenTransitions>
+
+                <!--  页面标题  -->
+                <TextBlock
+                    Margin="1,36,0,0"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="设置" />
+
+                <!--  外观  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="外观" />
+
+                <controls:SettingsExpander
+                    Description="选择应用的颜色主题"
+                    Header="主题"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE706;}"
+                    IsExpanded="False">
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard ContentAlignment="Left">
+                            <RadioButtons x:Name="RbTheme" SelectionChanged="RbTheme_SelectionChanged">
+                                <RadioButton Content="跟随系统" Tag="System" />
+                                <RadioButton Content="浅色" Tag="Light" />
+                                <RadioButton Content="深色" Tag="Dark" />
+                            </RadioButtons>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                </controls:SettingsExpander>
+
+                <controls:SettingsExpander
+                    Description="选择窗口背景效果"
+                    Header="背景材质"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE2B1;}"
+                    IsExpanded="False">
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard ContentAlignment="Left">
+                            <RadioButtons x:Name="RbMaterial" SelectionChanged="RbMaterial_SelectionChanged">
+                                <RadioButton Content="Mica" Tag="Mica" />
+                                <RadioButton Content="Mica Alt" Tag="MicaAlt" />
+                                <RadioButton Content="Acrylic" Tag="Acrylic" />
+                            </RadioButtons>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                </controls:SettingsExpander>
+
+                <!--  声音  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="声音" />
+
+                <controls:SettingsCard
+                    Description="启用界面操作的声音反馈"
+                    Header="UI 声音效果"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE767;}">
+                    <ToggleSwitch x:Name="SoundToggle" Toggled="SoundToggle_Toggled" />
+                </controls:SettingsCard>
+
+                <!--  关于  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="关于" />
+
+                <controls:SettingsExpander x:Name="AboutExpander" HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/Square44x44Logo.scale-200.png}" IsExpanded="False">
+                    <controls:SettingsExpander.Header>
+                        <TextBlock x:Name="TxtAppName" FontSize="14.4" />
+                    </controls:SettingsExpander.Header>
+                    <controls:SettingsExpander.Description>
+                        <TextBlock
+                            x:Name="TxtCopyright"
+                            FontSize="12"
+                            Opacity="0.8" />
+                    </controls:SettingsExpander.Description>
+                    <TextBlock
+                        x:Name="TxtVersion"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True" />
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard
+                            HorizontalContentAlignment="Left"
+                            ContentAlignment="Left">
+                            <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
+                                <HyperlinkButton Click="OpenExternalLink" Tag="https://github.com/yourname/FluentNotepads">
+                                    <TextBlock Text="GitHub 仓库" />
+                                </HyperlinkButton>
+                            </StackPanel>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                </controls:SettingsExpander>
+
+                <!--  底部留白  -->
+                <Border Height="36" />
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>
