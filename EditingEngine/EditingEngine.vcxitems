@@ -13,4 +13,11 @@
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)EditingPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EditorStatusBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EditorToolBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Win2DTextEditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Win2DEditorElementHandler.cs" />
+  </ItemGroup>
 </Project>

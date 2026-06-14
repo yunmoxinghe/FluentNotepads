@@ -54,10 +54,15 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.3.1" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
     <PackageReference Include="Microsoft.UI.Reactor" Version="0.1.0-preview.4" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\EditingEngine\EditingPage.cs" Link="EditingEngine\EditingPage.cs" />
+    <Compile Include="..\EditingEngine\编辑页面.cs" Link="EditingEngine\编辑页面.cs" />
+    <Compile Include="..\EditingEngine\Win2D文本编辑器.cs" Link="EditingEngine\Win2D文本编辑器.cs" />
+    <Compile Include="..\EditingEngine\Win2D编辑器元素处理器.cs" Link="EditingEngine\Win2D编辑器元素处理器.cs" />
+    <Compile Include="..\EditingEngine\编辑器工具栏.cs" Link="EditingEngine\编辑器工具栏.cs" />
+    <Compile Include="..\EditingEngine\编辑器状态栏.cs" Link="EditingEngine\编辑器状态栏.cs" />
   </ItemGroup>
 
   <!--

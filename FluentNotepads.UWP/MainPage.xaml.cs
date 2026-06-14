@@ -112,7 +112,11 @@ namespace FluentNotepads
 
             // 使用 ReactorHostControl 承载 Reactor 组件
             var reactorHost = new Microsoft.UI.Reactor.Hosting.ReactorHostControl();
-            reactorHost.Mount(new EditingPage());
+            var editingPage = new EditingPage
+            {
+                OnSettingsRequested = () => OpenSettingsTab()
+            };
+            reactorHost.Mount(editingPage);
 
             // 创建标签页
             var header = fileName ?? $"未命名 {_newTabNumber}";
@@ -169,7 +173,11 @@ namespace FluentNotepads
 
                 // 使用 ReactorHostControl 承载 Reactor 组件
                 var reactorHost = new Microsoft.UI.Reactor.Hosting.ReactorHostControl();
-                reactorHost.Mount(new EditingPage());
+                var editingPage = new EditingPage
+                {
+                    OnSettingsRequested = () => OpenSettingsTab()
+                };
+                reactorHost.Mount(editingPage);
                 // TODO: 将文本内容传递给 EditingPage
 
                 // 创建标签页

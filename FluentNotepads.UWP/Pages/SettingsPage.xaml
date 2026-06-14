@@ -40,16 +40,14 @@
                            Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"/>
 
                 <controls:SettingsExpander x:Uid="Settings_ThemeExpander"
-                                           Header="主题"
-                                           Description="选择应用的颜色主题"
                                            IsExpanded="False"
                                            HeaderIcon="{ui:FontIcon Glyph=&#xE706;}">
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard ContentAlignment="Left">
                             <muxc:RadioButtons x:Name="RbTheme" SelectionChanged="RbTheme_SelectionChanged">
-                                <RadioButton x:Uid="ThemeSystem" Content="跟随系统" Tag="System"/>
-                                <RadioButton x:Uid="ThemeLight" Content="浅色" Tag="Light"/>
-                                <RadioButton x:Uid="ThemeDark" Content="深色" Tag="Dark"/>
+                                <RadioButton x:Uid="ThemeSystem" Tag="System"/>
+                                <RadioButton x:Uid="ThemeLight"  Tag="Light"/>
+                                <RadioButton x:Uid="ThemeDark"   Tag="Dark"/>
                             </muxc:RadioButtons>
                         </controls:SettingsCard>
                     </controls:SettingsExpander.Items>
