@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{e59d1265-afc4-4f87-86b5-c077344328d9}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)编辑页面.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)编辑器状态栏.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)编辑器工具栏.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Win2D文本编辑器.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Win2D编辑器元素处理器.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Win2D编辑器扩展.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DSL工厂.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" />
+    <None Include="$(MSBuildThisFileDirectory)MIGRATION.md" />
+    <None Include="$(MSBuildThisFileDirectory)链接外部壳规则.md" />
+  </ItemGroup>
+</Project>

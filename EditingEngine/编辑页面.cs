@@ -3,6 +3,7 @@ using Microsoft.UI.Reactor.Core;
 using Microsoft.UI.Reactor.Core.V1Protocol;
 using Microsoft.UI.Xaml.Controls;  // InfoBarSeverity
 using static Microsoft.UI.Reactor.Factories;
+using static FluentNotepads.EditingEngine.EditingEngineFactories;
 
 namespace FluentNotepads.EditingEngine;
 
@@ -121,8 +122,8 @@ Performance test: 这个编辑器可以轻松处理超大文件
     // 工厂方法
     private static Win2DEditorElement Win2DEditor(string initialText)
     {
-        // 注册处理器
-        ControlRegistry.Register<Win2DEditorElement, Win2DTextEditor>(static () => new Win2DEditorElementHandler());
+        // 触发静态注册
+        _ = Win2DEditorReg.Done;
         return new Win2DEditorElement(initialText);
     }
 }
@@ -132,4 +133,19 @@ Performance test: 这个编辑器可以轻松处理超大文件
 /// </summary>
 public record Win2DEditorElement(string InitialText) : Element
 {
+}
+
+// 注册 shim - 使用标准 Reactor ControlRegistry.Register 模式
+internal static class Win2DEditorReg
+{
+    static Win2DEditorReg() { }
+    
+    internal static readonly byte Done = Init();
+    
+    private static byte Init()
+    {
+        ControlRegistry.Register<Win2DEditorElement, Win2DTextEditor>(
+            static () => new Win2DEditorDescriptorHandler());
+        return 1;
+    }
 }
