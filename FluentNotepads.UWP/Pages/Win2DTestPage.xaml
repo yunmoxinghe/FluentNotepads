@@ -1,0 +1,36 @@
+<Page
+    x:Class="FluentNotepads.Pages.Win2DTestPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <StackPanel Grid.Row="0" Padding="16" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+            <TextBlock Text="Win2D 测试页面" 
+                      Style="{StaticResource TitleTextBlockStyle}"/>
+            <TextBlock Text="验证 Win2D 是否正常工作" 
+                      Style="{StaticResource BodyTextBlockStyle}"
+                      Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                      Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- Win2D Canvas 绘制区域 -->
+        <canvas:CanvasControl 
+            x:Name="Canvas"
+            Grid.Row="1"
+            Draw="Canvas_Draw"
+            CreateResources="Canvas_CreateResources"
+            ClearColor="CornflowerBlue"
+            Margin="16"/>
+    </Grid>
+</Page>

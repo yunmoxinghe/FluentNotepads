@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -11,7 +11,8 @@ using MuxcTabView = Microsoft.UI.Xaml.Controls.TabView;
 using MuxcTabViewItem = Microsoft.UI.Xaml.Controls.TabViewItem;
 using MuxcTabViewTabCloseRequestedEventArgs = Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs;
 using MuxcSymbolIconSource = Microsoft.UI.Xaml.Controls.SymbolIconSource;
-using FluentNotepads.EditingEngine;
+// 暂时禁用 EditingEngine 引用
+// using FluentNotepads.EditingEngine;
 using Microsoft.UI.Reactor.Hosting;
 
 namespace FluentNotepads
@@ -46,6 +47,12 @@ namespace FluentNotepads
                 if ((int)e.Key == 188)
                 {
                     OpenSettingsTab();
+                    e.Handled = true;
+                }
+                // Ctrl + W 打开 Win2D 测试页面
+                else if (e.Key == Windows.System.VirtualKey.W)
+                {
+                    OpenWin2DTestTab();
                     e.Handled = true;
                 }
             }
@@ -110,13 +117,15 @@ namespace FluentNotepads
         {
             _newTabNumber++;
 
-            // 使用 ReactorHostControl 承载 Reactor 组件
-            var reactorHost = new Microsoft.UI.Reactor.Hosting.ReactorHostControl();
-            var editingPage = new EditingPage
+            // 暂时禁用 ReactorHostControl 和 EditingPage
+            // 使用简单的 TextBox 替代
+            var textBox = new TextBox
             {
-                OnSettingsRequested = () => OpenSettingsTab()
+                AcceptsReturn = true,
+                TextWrapping = TextWrapping.Wrap,
+                PlaceholderText = "开始输入...",
+                Margin = new Thickness(16)
             };
-            reactorHost.Mount(editingPage);
 
             // 创建标签页
             var header = fileName ?? $"未命名 {_newTabNumber}";
@@ -125,7 +134,7 @@ namespace FluentNotepads
                 Header = header,
                 IconSource = new MuxcSymbolIconSource { Symbol = Symbol.Document },
                 IsClosable = true,
-                Content = reactorHost
+                Content = textBox
             };
 
             TabView.TabItems.Add(newTab);
@@ -171,14 +180,14 @@ namespace FluentNotepads
             {
                 var text = await FileIO.ReadTextAsync(file);
 
-                // 使用 ReactorHostControl 承载 Reactor 组件
-                var reactorHost = new Microsoft.UI.Reactor.Hosting.ReactorHostControl();
-                var editingPage = new EditingPage
+                // 使用简单的 TextBox 显示文件内容
+                var textBox = new TextBox
                 {
-                    OnSettingsRequested = () => OpenSettingsTab()
+                    AcceptsReturn = true,
+                    TextWrapping = TextWrapping.Wrap,
+                    Text = text,
+                    Margin = new Thickness(16)
                 };
-                reactorHost.Mount(editingPage);
-                // TODO: 将文本内容传递给 EditingPage
 
                 // 创建标签页
                 var newTab = new MuxcTabViewItem
@@ -186,7 +195,7 @@ namespace FluentNotepads
                     Header = file.DisplayName,
                     IconSource = new MuxcSymbolIconSource { Symbol = Symbol.Page },
                     IsClosable = true,
-                    Content = reactorHost,
+                    Content = textBox,
                     Tag = file // 保存文件引用
                 };
 
@@ -272,6 +281,33 @@ namespace FluentNotepads
                 IconSource = new MuxcSymbolIconSource { Symbol = Symbol.Setting },
                 IsClosable = true,
                 Content = new Pages.SettingsPage()
+            };
+            TabView.TabItems.Add(tab);
+            TabView.SelectedItem = tab;
+        }
+
+        /// <summary>
+        /// 打开 Win2D 测试标签页
+        /// </summary>
+        public void OpenWin2DTestTab()
+        {
+            // 如果已有 Win2D 测试标签，直接切换到它
+            foreach (var item in TabView.TabItems)
+            {
+                if (item is MuxcTabViewItem existing && existing.Content is Pages.Win2DTestPage)
+                {
+                    TabView.SelectedItem = existing;
+                    return;
+                }
+            }
+
+            // 创建新的 Win2D 测试标签页
+            var tab = new MuxcTabViewItem
+            {
+                Header = "Win2D 测试",
+                IconSource = new MuxcSymbolIconSource { Symbol = Symbol.Preview },
+                IsClosable = true,
+                Content = new Pages.Win2DTestPage()
             };
             TabView.TabItems.Add(tab);
             TabView.SelectedItem = tab;
