@@ -1,7 +1,10 @@
 using Microsoft.UI.Reactor;
 using Microsoft.UI.Reactor.Core;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using System;
 using static Microsoft.UI.Reactor.Factories;
 
 namespace FluentNotepads.EditingEngine;
@@ -50,7 +53,7 @@ public class EditorStatusBar : Component
                 GridSize.Px(1),     // 8. 分割线
                 GridSize.Auto,      // 9. 编码
             },
-            rows: new[] { GridSize.Auto },
+            rows: new[] { GridSize.Px(32) },  // 固定32px高度
             
             // 1. 文件路径（左侧，自适应宽度）
             CreatePathIndicator()
@@ -92,11 +95,31 @@ public class EditorStatusBar : Component
             CreateStatusBarButton(Encoding, OnEncodingClick)
                 .Grid(column: 9)
         )
-        .Height(32)  // 状态栏高度 32px
         .Set(g =>
         {
-            g.BorderThickness = new Microsoft.UI.Xaml.Thickness(0, 1, 0, 0);  // 只有顶部 1px 边框
-            g.BorderBrush = new SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(30, 128, 128, 128));  // 淡的半透明灰色
+            g.BorderThickness = new Thickness(0, 1, 0, 0);  // 只有顶部 1px 边框
+            
+            // 尝试多个可能的TabView边框颜色资源
+            if (Windows.UI.Xaml.Application.Current.Resources.TryGetValue(
+                "CardStrokeColorDefaultBrush", out var brush1) && brush1 is Brush b1)
+            {
+                g.BorderBrush = b1;
+            }
+            else if (Windows.UI.Xaml.Application.Current.Resources.TryGetValue(
+                "CardStrokeColorDefault", out var color) && color is Windows.UI.Color c)
+            {
+                g.BorderBrush = new SolidColorBrush(c);
+            }
+            else if (Windows.UI.Xaml.Application.Current.Resources.TryGetValue(
+                "DividerStrokeColorDefaultBrush", out var brush2) && brush2 is Brush b2)
+            {
+                g.BorderBrush = b2;
+            }
+            else
+            {
+                // 回退
+                g.BorderBrush = new SolidColorBrush(ColorHelper.FromArgb(20, 0, 0, 0));
+            }
         });
     }
 
@@ -108,10 +131,32 @@ public class EditorStatusBar : Component
         return Border(null)
             .Width(1)
             .Height(20)  // 高度 20px = 32px 状态栏高度 - 上下各 6px 间隙
-            .VerticalAlignment(Microsoft.UI.Xaml.VerticalAlignment.Center)
-            .Background(new SolidColorBrush(
-                Microsoft.UI.ColorHelper.FromArgb(30, 128, 128, 128)  // 更淡的半透明灰色
-            ));
+            .VerticalAlignment(VerticalAlignment.Center)
+            .Set(border =>
+            {
+                // 尝试多个可能的TabView边框颜色资源
+                if (Windows.UI.Xaml.Application.Current.Resources.TryGetValue(
+                    "CardStrokeColorDefaultBrush", out var brush1) && brush1 is Brush b1)
+                {
+                    border.Background = b1;
+                }
+                else if (Windows.UI.Xaml.Application.Current.Resources.TryGetValue(
+                    "CardStrokeColorDefault", out var color) && color is Windows.UI.Color c)
+                {
+                    border.Background = new SolidColorBrush(c);
+                }
+                else if (Windows.UI.Xaml.Application.Current.Resources.TryGetValue(
+                    "DividerStrokeColorDefaultBrush", out var brush2) && brush2 is Brush b2)
+                {
+                    border.Background = b2;
+                }
+                else
+                {
+                    // 回退
+                    border.Background = new SolidColorBrush(
+                        ColorHelper.FromArgb(20, 0, 0, 0));
+                }
+            });
     }
 
     /// <summary>
@@ -125,28 +170,25 @@ public class EditorStatusBar : Component
 
         return Button(
             TextBlock(fileName)
-                .FontSize(12)  // 增加字体
+                .FontSize(12)
                 .Foreground("#A0A0A0")
                 .Set(tb =>
                 {
-                    tb.TextTrimming = Microsoft.UI.Xaml.TextTrimming.CharacterEllipsis;
-                    tb.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;
-                    tb.Margin = new Microsoft.UI.Xaml.Thickness(0, -2, 0, 0);  // 向上偏移 2px 校正视觉中心
+                    tb.TextTrimming = TextTrimming.CharacterEllipsis;
+                    tb.VerticalAlignment = VerticalAlignment.Center;
                 })
         )
+        .SubtleButton()  // 使用ReactorUWP的SubtleButton扩展方法
         .Set(btn =>
         {
-            // 手动设置 Subtle Button 样式（UWP 没有内置的 SubtleButtonStyle）
-            btn.Background = null;  // null 表示透明
-            btn.BorderBrush = null;
-            btn.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
-            btn.Padding = new Microsoft.UI.Xaml.Thickness(10, 0, 10, 0);  // 上下 padding 为 0，让文本垂直居中
+            btn.Padding = new Thickness(12, 0, 12, 0);
             btn.Height = 32;
             btn.MinWidth = 0;
-            btn.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Left;  // 左对齐，自适应宽度
-            btn.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch;
-            btn.HorizontalContentAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Left;
-            btn.VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;  // 垂直居中
+            btn.HorizontalAlignment = HorizontalAlignment.Left;
+            btn.VerticalAlignment = VerticalAlignment.Stretch;
+            btn.HorizontalContentAlignment = HorizontalAlignment.Left;
+            btn.VerticalContentAlignment = VerticalAlignment.Center;
+            
             if (OnFilePathClick != null)
             {
                 btn.Click += (s, e) => OnFilePathClick();
@@ -161,7 +203,6 @@ public class EditorStatusBar : Component
     {
         if (!IsModified)
         {
-            // 不显示任何内容
             return Border(TextBlock(""))
                 .Width(0)
                 .Height(32);
@@ -169,22 +210,24 @@ public class EditorStatusBar : Component
 
         return Button(
             TextBlock("●  已修改")
-                .FontSize(12)  // 增加字体
-                .Foreground("#0078D4")  // Accent 颜色
+                .FontSize(12)
+                .Foreground("#0078D4")
+                .Set(tb =>
+                {
+                    tb.VerticalAlignment = VerticalAlignment.Center;
+                })
         )
+        .SubtleButton()  // 使用ReactorUWP的SubtleButton扩展方法
         .Set(btn =>
         {
-            // 手动设置 Subtle Button 样式（UWP 没有内置的 SubtleButtonStyle）
-            btn.Background = null;  // null 表示透明
-            btn.BorderBrush = null;
-            btn.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
-            btn.Padding = new Microsoft.UI.Xaml.Thickness(10, 0, 10, 0);  // 上下 padding 为 0
+            btn.Padding = new Thickness(12, 0, 12, 0);
             btn.Height = 32;
             btn.MinWidth = 0;
-            btn.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch;
-            btn.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch;
-            btn.HorizontalContentAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center;
-            btn.VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;
+            btn.HorizontalAlignment = HorizontalAlignment.Stretch;
+            btn.VerticalAlignment = VerticalAlignment.Stretch;
+            btn.HorizontalContentAlignment = HorizontalAlignment.Center;
+            btn.VerticalContentAlignment = VerticalAlignment.Center;
+            
             if (OnModificationClick != null)
             {
                 btn.Click += (s, e) => OnModificationClick();
@@ -193,33 +236,30 @@ public class EditorStatusBar : Component
     }
 
     /// <summary>
-    /// 创建通用状态栏按钮 - 使用 Subtle style
+    /// 创建通用状态栏按钮 - 使用ReactorUWP的SubtleButton扩展
     /// </summary>
     private Element CreateStatusBarButton(string text, Action? onClick)
     {
         return Button(
             TextBlock(text)
-                .FontSize(12)  // 增加字体
+                .FontSize(12)
                 .Foreground("#A0A0A0")
                 .Set(tb =>
                 {
-                    tb.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;
-                    tb.Margin = new Microsoft.UI.Xaml.Thickness(0, -2, 0, 0);  // 向上偏移 2px 校正视觉中心
+                    tb.VerticalAlignment = VerticalAlignment.Center;
                 })
         )
+        .SubtleButton()  // 使用ReactorUWP的SubtleButton扩展方法
         .Set(btn =>
         {
-            // 手动设置 Subtle Button 样式（UWP 没有内置的 SubtleButtonStyle）
-            btn.Background = null;  // null 表示透明
-            btn.BorderBrush = null;
-            btn.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
-            btn.Padding = new Microsoft.UI.Xaml.Thickness(10, 0, 10, 0);  // 上下 padding 为 0，让文本垂直居中
+            btn.Padding = new Thickness(12, 0, 12, 0);
             btn.Height = 32;
             btn.MinWidth = 0;
-            btn.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch;
-            btn.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Stretch;
-            btn.HorizontalContentAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center;
-            btn.VerticalContentAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;  // 垂直居中
+            btn.HorizontalAlignment = HorizontalAlignment.Stretch;
+            btn.VerticalAlignment = VerticalAlignment.Stretch;
+            btn.HorizontalContentAlignment = HorizontalAlignment.Center;
+            btn.VerticalContentAlignment = VerticalAlignment.Center;
+            
             if (onClick != null)
             {
                 btn.Click += (s, e) => onClick();

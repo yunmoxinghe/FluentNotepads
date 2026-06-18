@@ -11,8 +11,7 @@ using MuxcTabView = Microsoft.UI.Xaml.Controls.TabView;
 using MuxcTabViewItem = Microsoft.UI.Xaml.Controls.TabViewItem;
 using MuxcTabViewTabCloseRequestedEventArgs = Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs;
 using MuxcSymbolIconSource = Microsoft.UI.Xaml.Controls.SymbolIconSource;
-// 暂时禁用 EditingEngine 引用
-// using FluentNotepads.EditingEngine;
+using FluentNotepads.EditingEngine;
 using Microsoft.UI.Reactor.Hosting;
 
 namespace FluentNotepads
@@ -117,15 +116,13 @@ namespace FluentNotepads
         {
             _newTabNumber++;
 
-            // 暂时禁用 ReactorHostControl 和 EditingPage
-            // 使用简单的 TextBox 替代
-            var textBox = new TextBox
+            // 使用 ReactorHostControl 承载 Reactor 组件
+            var reactorHost = new Microsoft.UI.Reactor.Hosting.ReactorHostControl();
+            var editingPage = new EditingPage
             {
-                AcceptsReturn = true,
-                TextWrapping = TextWrapping.Wrap,
-                PlaceholderText = "开始输入...",
-                Margin = new Thickness(16)
+                OnSettingsRequested = () => OpenSettingsTab()
             };
+            reactorHost.Mount(editingPage);
 
             // 创建标签页
             var header = fileName ?? $"未命名 {_newTabNumber}";
@@ -134,7 +131,7 @@ namespace FluentNotepads
                 Header = header,
                 IconSource = new MuxcSymbolIconSource { Symbol = Symbol.Document },
                 IsClosable = true,
-                Content = textBox
+                Content = reactorHost
             };
 
             TabView.TabItems.Add(newTab);
@@ -180,14 +177,14 @@ namespace FluentNotepads
             {
                 var text = await FileIO.ReadTextAsync(file);
 
-                // 使用简单的 TextBox 显示文件内容
-                var textBox = new TextBox
+                // 使用 ReactorHostControl 承载 Reactor 组件
+                var reactorHost = new Microsoft.UI.Reactor.Hosting.ReactorHostControl();
+                var editingPage = new EditingPage
                 {
-                    AcceptsReturn = true,
-                    TextWrapping = TextWrapping.Wrap,
-                    Text = text,
-                    Margin = new Thickness(16)
+                    OnSettingsRequested = () => OpenSettingsTab()
                 };
+                reactorHost.Mount(editingPage);
+                // TODO: 将文本内容传递给 EditingPage
 
                 // 创建标签页
                 var newTab = new MuxcTabViewItem
@@ -195,7 +192,7 @@ namespace FluentNotepads
                     Header = file.DisplayName,
                     IconSource = new MuxcSymbolIconSource { Symbol = Symbol.Page },
                     IsClosable = true,
-                    Content = textBox,
+                    Content = reactorHost,
                     Tag = file // 保存文件引用
                 };
 

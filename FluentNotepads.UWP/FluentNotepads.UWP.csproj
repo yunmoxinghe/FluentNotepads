@@ -10,7 +10,8 @@
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <PublishAot>true</PublishAot>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
-    <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
+    <!-- 暂时禁用以修复 InvalidCastException -->
+    <!-- <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling> -->
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
 
@@ -25,15 +26,10 @@
   <ItemGroup>
     <!-- ReactorUWP.Core - 提供 Microsoft.UI.Reactor 命名空间支持 -->
     <ProjectReference Include="..\..\ReactorUWP.core\ReactorUWP.core\ReactorUWP.core.csproj" />
+    <!-- FluentNotepads.EditingEngine - UWP类库 -->
+    <ProjectReference Include="..\FluentNotepads.EditingEngine\FluentNotepads.EditingEngine.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- 确保XAML页面正确编译 -->
-    <Page Update="Pages\Win2DTestPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <!-- 暂时禁用共享项目链接 -->
+  <!-- 共享项目已迁移到FluentNotepads.EditingEngine类库 -->
   <!-- <Import Project="..\EditingEngine\EditingEngine.projitems" Label="Shared" /> -->
 </Project>

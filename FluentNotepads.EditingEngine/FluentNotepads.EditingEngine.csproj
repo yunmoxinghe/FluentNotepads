@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <Nullable>enable</Nullable>
+    <UseUwp>true</UseUwp>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- WinUI 2 for UWP -->
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
+    <!-- Win2D for UWP -->
+    <PackageReference Include="Win2D.uwp" Version="1.28.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ReactorUWP.Core - 提供 Microsoft.UI.Reactor 命名空间支持 -->
+    <ProjectReference Include="..\..\ReactorUWP.core\ReactorUWP.core\ReactorUWP.core.csproj" />
+  </ItemGroup>
+
+</Project>

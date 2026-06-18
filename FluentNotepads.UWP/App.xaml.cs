@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -28,6 +29,37 @@ namespace FluentNotepads
         {
             InitializeComponent();
             Suspending += OnSuspending;
+            
+            // 添加全局异常处理，帮助定位问题
+            UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            try
+            {
+                var ex = e.Exception;
+                var msg = $@"
+========== 未处理的异常 ==========
+类型: {ex?.GetType().FullName}
+消息: {ex?.Message}
+堆栈跟踪:
+{ex?.StackTrace}
+
+内部异常: {ex?.InnerException?.Message}
+内部堆栈:
+{ex?.InnerException?.StackTrace}
+================================";
+                
+                Debug.WriteLine(msg);
+                System.Diagnostics.Debugger.Break(); // 触发调试器中断
+                
+                e.Handled = true; // 阻止应用崩溃
+            }
+            catch (Exception ex2)
+            {
+                Debug.WriteLine($"异常处理器本身出错: {ex2}");
+            }
         }
 
         /// <inheritdoc/>
